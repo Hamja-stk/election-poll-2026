@@ -79,7 +79,17 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyh5iNck9HNsA4zgFRsQLdlTMfO7D_58H0DaO2L39m4dHT-RSmM5fpwFBVUNVzAi0LPoA/exec"; 
 
     // পেজ লোড হওয়ার সময় চেক করবে আগে ভোট দিয়েছে কি না
-
+   window.onload = function() {
+    if(localStorage.getItem('hams_voted')) {
+        document.getElementById('pollSection').innerHTML = `
+            <div class="card" style="text-align: center; padding: 40px;">
+                <h2 style="color: var(--primary-red);">আপনি ইতিমধ্যে ভোট দিয়েছেন!</h2>
+                <p>HAMS Knock-এর জরিপে অংশগ্রহণের জন্য ধন্যবাদ।</p>
+                <a href="index.html" onclick="location.reload();" style="color: var(--primary-green); font-weight: bold; text-decoration: none;">রিফ্রেশ করুন</a>
+            </div>`;
+        document.getElementById('submitBtn').classList.add('hidden');
+    }
+};
 
     function selectItem(type, el, val) {
         if(localStorage.getItem('hams_voted')) return;
@@ -122,3 +132,4 @@
 </body>
 
 </html>
+
