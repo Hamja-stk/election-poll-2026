@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>জাতীয় জনমত জরিপ ২০২৬ - HAMS Knock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-green: #006a4e; --primary-red: #f42a41; --bg-gray: #f0f4f8; --card-white: #ffffff; --text-dark: #1a202c; --border: #cbd5e1; }
+        body { font-family: 'Anek Bangla', sans-serif; background-color: var(--bg-gray); margin: 0; color: var(--text-dark); display: flex; flex-direction: column; min-height: 100vh; }
+        .hero-header { background-color: var(--primary-green); color: white; text-align: center; padding: 40px 20px 70px; border-bottom: 6px solid var(--primary-red); }
+        .main-wrapper { max-width: 600px; margin: -40px auto 40px; padding: 0 15px; flex: 1; }
+        .card { background: var(--card-white); border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .section-tag { border-left: 4px solid var(--primary-red); padding-left: 12px; color: var(--primary-green); font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; }
+        
+        .option-box, .ref-item { border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer; transition: 0.3s; padding: 14px; margin-bottom: 10px; display: flex; align-items: center; background: white; }
+        .option-box:hover, .ref-item:hover { border-color: var(--primary-green); background: #f8fafc; }
+        .active { border-color: var(--primary-green) !important; background: #ecfdf5 !important; font-weight: 700; color: var(--primary-green); }
+        
+        .final-btn { width: 100%; padding: 18px; border: none; border-radius: 30px; background-color: #94a3b8; color: white; font-size: 1.2rem; font-weight: 800; cursor: pointer; transition: 0.4s; margin-top: 10px; }
+        .ready { background-color: var(--primary-green) !important; box-shadow: 0 5px 15px rgba(0,106,78,0.3); }
+        
+        footer { text-align: center; padding: 25px; font-size: 0.85rem; color: #64748b; background: #e2e8f0; margin-top: auto; }
+        footer a { color: var(--primary-green); text-decoration: none; margin: 0 10px; font-weight: 600; }
+        .hidden { display: none; }
+        .already-voted { color: var(--primary-red); text-align: center; font-weight: bold; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="hero-header">
+    <h1>জাতীয় জনমত জরিপ ২০২৬</h1>
+    <p>HAMS Knock-এর একটি জনমত যাচাই উদ্যোগ</p>
+</div>
+
+<div class="main-wrapper" id="pollSection">
+    <div class="card">
+        <div class="section-tag">সংসদ নির্বাচন</div>
+        <p>আগামী নির্বাচনে আপনি কোন দলকে সমর্থন করবেন?</p>
+        <div id="partyOptions">
+            <div class="option-box" onclick="selectItem('party', this, 'বিএনপি')">বাংলাদেশ জাতীয়তাবাদী দল (বিএনপি)</div>
+            <div class="option-box" onclick="selectItem('party', this, 'জামায়াত')">বাংলাদেশ জামায়াতে ইসলামী</div>
+            <div class="option-box" onclick="selectItem('party', this, 'ইসলামী আন্দোলন')">ইসলামী আন্দোলন বাংলাদেশ</div>
+            <div class="option-box" onclick="selectItem('party', this, 'গণ অধিকার পরিষদ')">গণ অধিকার পরিষদ</div>
+            <div class="option-box" onclick="selectItem('party', this, 'জাতীয় পার্টি')">জাতীয় পার্টি (জিএম কাদের)</div>
+            <div class="option-box" onclick="selectItem('party', this, 'অন্যান্য')">অন্যান্য / স্বতন্ত্র</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="section-tag">জাতীয় গণভোট</div>
+        <p>আপনি কি প্রস্তাবিত সংবিধান সংস্কার (জুলাই সনদ) সমর্থন করেন?</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+            <div class="ref-item" style="justify-content:center" onclick="selectItem('ref', this, 'হ্যাঁ')">হ্যাঁ</div>
+            <div class="ref-item" style="justify-content:center" onclick="selectItem('ref', this, 'না')">না</div>
+            <div class="ref-item" style="justify-content:center" onclick="selectItem('ref', this, 'মন্তব্য নেই')">মন্তব্য নেই</div>
+        </div>
+    </div>
+
+    <button id="submitBtn" class="final-btn" onclick="submitVote()" disabled>ভোট জমা দিন</button>
+    <div id="voteMessage" class="already-voted hidden">আপনি ইতিমধ্যে আপনার মতামত প্রদান করেছেন।</div>
+</div>
+
+<div id="successPage" class="main-wrapper hidden">
+    <div class="card" style="text-align: center; padding: 50px;">
+        <h2 style="color: var(--primary-green);">✅ সফল হয়েছে!</h2>
+        <p>আপনার পরিচয় গোপন রেখে মতামতটি ডাটাবেজে সংরক্ষণ করা হয়েছে।</p>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; ২০২৬ HAMS Knock. কোনো ব্যক্তিগত তথ্য সংগ্রহ করা হয় না।</p>
+    <a href="term_policy.html">টার্মস</a> | <a href="term_policy.html">প্রাইভেসি পলিসি</a>
+</footer>
+
+<script>
+    let voteData = { party: "", ref: "" };
+    // আপনার Google Apps Script URL এখানে দিন
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyh5iNck9HNsA4zgFRsQLdlTMfO7D_58H0DaO2L39m4dHT-RSmM5fpwFBVUNVzAi0LPoA/exec"; 
+
+    // পেজ লোড হওয়ার সময় চেক করবে আগে ভোট দিয়েছে কি না
+    window.onload = function() {
+        if(localStorage.getItem('hams_voted')) {
+            document.getElementById('submitBtn').classList.add('hidden');
+            document.getElementById('voteMessage').classList.remove('hidden');
+        }
+    };
+
+    function selectItem(type, el, val) {
+        if(localStorage.getItem('hams_voted')) return;
+        const parent = el.parentElement;
+        parent.querySelectorAll('.option-box, .ref-item').forEach(i => i.classList.remove('active'));
+        el.classList.add('active');
+        if(type === 'party') voteData.party = val;
+        else voteData.ref = val;
+        
+        if(voteData.party && voteData.ref) {
+            document.getElementById('submitBtn').disabled = false;
+            document.getElementById('submitBtn').classList.add('ready');
+        }
+    }
+
+    function submitVote() {
+        const btn = document.getElementById('submitBtn');
+        btn.innerText = "প্রসেসিং...";
+        btn.disabled = true;
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify({
+                party: voteData.party,
+                referendum: voteData.ref
+            })
+        }).then(() => {
+            localStorage.setItem('hams_voted', 'true'); // ব্রাউজারে ফ্ল্যাগ সেট করা
+            document.getElementById('pollSection').classList.add('hidden');
+            document.getElementById('successPage').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }).catch(() => {
+            alert("ত্রুটি হয়েছে! আবার চেষ্টা করুন।");
+            btn.innerText = "ভোট জমা দিন";
+            btn.disabled = false;
+        });
+    }
+</script>
+</body>
+</html>
