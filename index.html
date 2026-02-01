@@ -79,12 +79,7 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyh5iNck9HNsA4zgFRsQLdlTMfO7D_58H0DaO2L39m4dHT-RSmM5fpwFBVUNVzAi0LPoA/exec"; 
 
     // পেজ লোড হওয়ার সময় চেক করবে আগে ভোট দিয়েছে কি না
-    window.onload = function() {
-        if(localStorage.getItem('hams_voted')) {
-            document.getElementById('submitBtn').classList.add('hidden');
-            document.getElementById('voteMessage').classList.remove('hidden');
-        }
-    };
+
 
     function selectItem(type, el, val) {
         if(localStorage.getItem('hams_voted')) return;
@@ -125,4 +120,5 @@
     }
 </script>
 </body>
+
 </html>
