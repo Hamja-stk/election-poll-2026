@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>জাতীয় জনমত জরিপ ২০২৬ - HAMS Knock</title>
     <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@300;400;600;800&display=swap" rel="stylesheet">
-	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id="G-ZKYDQMKH1D"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZKYDQMKH1D"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-ZKYDQMKH1D'); // এখানে আপনার আসল ID বসাবেন
+    gtag('config', 'G-ZKYDQMKH1D');
     </script>
     <style>
         :root { --primary-green: #006a4e; --primary-red: #f42a41; --bg-gray: #f0f4f8; --card-white: #ffffff; --text-dark: #1a202c; --border: #cbd5e1; }
@@ -20,35 +20,17 @@
         .main-wrapper { max-width: 600px; margin: -40px auto 40px; padding: 0 15px; flex: 1; }
         .card { background: var(--card-white); border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 20px; }
         .section-tag { border-left: 4px solid var(--primary-red); padding-left: 12px; color: var(--primary-green); font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; }
-        
         .option-box, .ref-item { border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer; transition: 0.3s; padding: 14px; margin-bottom: 10px; display: flex; align-items: center; background: white; }
         .option-box:hover, .ref-item:hover { border-color: var(--primary-green); background: #f8fafc; }
         .active { border-color: var(--primary-green) !important; background: #ecfdf5 !important; font-weight: 700; color: var(--primary-green); }
-        
         .final-btn { width: 100%; padding: 18px; border: none; border-radius: 30px; background-color: #94a3b8; color: white; font-size: 1.2rem; font-weight: 800; cursor: pointer; transition: 0.4s; margin-top: 10px; }
         .ready { background-color: var(--primary-green) !important; box-shadow: 0 5px 15px rgba(0,106,78,0.3); }
-        
         footer { text-align: center; padding: 25px; font-size: 0.85rem; color: #64748b; background: #e2e8f0; margin-top: auto; }
         footer a { color: var(--primary-green); text-decoration: none; margin: 0 10px; font-weight: 600; }
         .hidden { display: none; }
         .already-voted { color: var(--primary-red); text-align: center; font-weight: bold; margin-top: 10px; }
-		/* ডার্ক মোড ও রেসপনসিভ স্টাইল */
-/* মোবাইল ডিভাইসের জন্য */
-@media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
-    h1 {
-        font-size: 22px;
-    }
-}
-
-#timer-display {
-    text-align: center;
-    font-size: 20px;
-    color: #ffcc00;
-    margin-top: 50px;
-}
+        #timer-display { text-align: center; margin-top: 50px; }
+        @media (max-width: 600px) { h1 { font-size: 22px; } }
     </style>
 </head>
 <body>
@@ -57,13 +39,22 @@
     <h1>জাতীয় জনমত জরিপ ২০২৬</h1>
     <p>HAMS Knock-এর একটি জনমত যাচাই উদ্যোগ</p>
 </div>
-<div id="timer-display" style="display: block; text-align: center; padding: 20px; font-weight: bold;"></div>
-<div id="live-counter" style="text-align: center; margin-top: 10px; font-family: Arial, sans-serif;">
-    <p style="color: #00ffcc; font-size: 18px; font-weight: bold; margin: 0;">
-        মোট ভোট পড়েছে: <span id="vote-count">...</span>
-    </p>
-</div>
+
+<div id="timer-display"></div>
+
 <div class="main-wrapper" id="pollSection">
+    <div id="election-timer-live" style="text-align: center; color: #006a4e; font-weight: bold; margin-bottom: 15px; font-size: 16px;"></div>
+    
+    <div id="polling-deadline" class="hidden" style="text-align: center; color: #f42a41; font-weight: bold; margin-bottom: 20px; padding: 12px; border: 1px dashed #f42a41; border-radius: 10px; background: #fff;">
+        এই জরিপটি আর মাত্র <span id="remaining-time"></span> পর্যন্ত চলবে
+    </div>
+
+    <div id="live-counter" style="text-align: center; margin: 15px 0 25px;">
+        <p style="color: #006a4e; font-size: 18px; font-weight: bold; margin: 0;">
+            মোট ভোট পড়েছে: <span id="vote-count" style="color: #f42a41;">...</span> টি
+        </p>
+    </div>
+
     <div class="card">
         <div class="section-tag">সংসদ নির্বাচন</div>
         <p>আগামী নির্বাচনে আপনি কোন দলকে সমর্থন করবেন?</p>
@@ -86,114 +77,64 @@
             <div class="ref-item" style="justify-content:center" onclick="selectItem('ref', this, 'মন্তব্য নেই')">মন্তব্য নেই</div>
         </div>
     </div>
-	<!--Recapcha--> 
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <div class="g-recaptcha" data-sitekey="6Lcf3l0sAAAAACq01OjHM2CIxZF1dkGHtBx8qX4_"></div>
-	
+
+    <div class="g-recaptcha" data-sitekey="6Lcf3l0sAAAAACq01OjHM2CIxZF1dkGHtBx8qX4_" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+    
     <button id="submitBtn" class="final-btn" onclick="submitVote()" disabled>ভোট জমা দিন</button>
     <div id="voteMessage" class="already-voted hidden">আপনি ইতিমধ্যে আপনার মতামত প্রদান করেছেন।</div>
 </div>
 
 <div id="successPage" class="hidden" style="text-align: center; padding: 40px 20px;">
     <div style="background: white; max-width: 500px; margin: 0 auto; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-        <div style="width: 80px; height: 80px; background: #4CAF50; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 20px;">
-            ✓
-        </div>
-        
-        <h2 style="color: #333; margin-bottom: 10px;">ভোট সফলভাবে জমা হয়েছে!</h2>
-        <p style="color: #666; line-height: 1.6;">জাতীয় জনমত জরিপ ২০২৬-এ অংশগ্রহণ করার জন্য আপনাকে ধন্যবাদ। আপনার মতামত আমাদের জন্য অত্যন্ত গুরুত্বপূর্ণ।</p>
-        
-        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-        
-        <p style="font-weight: bold; color: #1a73e8;">ফলাফল কবে প্রকাশিত হবে?</p>
-        <p style="font-size: 14px; color: #777;">জরিপ শেষ হওয়ার পর বিস্তারিত ফলাফল <b>HAMS Knock</b>-এর অফিসিয়াল ফেইসবুক পেইজ এ প্রকাশ করা হবে।</p>
-        
-        <a href="https://www.facebook.com/HAMSKnock" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; margin-top: 20px; padding: 12px 25px; background: #1877F2; color: white; text-decoration: none; border-radius: 30px; font-weight: bold; transition: 0.3s; gap: 10px;">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
-    </svg>
-         ফেসবুক পেজে আপডেট দেখুন
-     </a>
+        <div style="width: 80px; height: 80px; background: #4CAF50; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 20px;">✓</div>
+        <h2>ভোট সফলভাবে জমা হয়েছে!</h2>
+        <p>জরিপ শেষ হওয়ার পর বিস্তারিত ফলাফল <b>HAMS Knock</b>-এর ফেসবুক পেজে প্রকাশ করা হবে।</p>
+        <a href="https://www.facebook.com/HAMSKnock" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; margin-top: 20px; padding: 12px 25px; background: #1877F2; color: white; text-decoration: none; border-radius: 30px; font-weight: bold; gap: 10px;">ফেসবুক পেজে আপডেট দেখুন</a>
    </div>
 </div>
 
 <footer>
-    <p>&copy; ২০২৬ HAMS Knock. কোনো ব্যক্তিগত তথ্য সংগ্রহ করা হয় না।</p>
+    <p>&copy; ২০২৬ HAMS Knock. কোনো ব্যক্তিগত তথ্য সংগ্রহ করা হয় না।</p>
     <a href="term_policy.html">টার্মস</a> | <a href="term_policy.html">প্রাইভেসি পলিসি</a>
 </footer>
 
 <script>
-    let voteData = { party: "", ref: "" };
-// আপনার Google Apps Script URL (এটি doPost এবং doGet দুটোর জন্যই কাজ করবে)
+let voteData = { party: "", ref: "" };
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4laUcqzIgXQ4Jtr8ogACqffHjRCaFE-hL-0rTWl7jNpGFDf866kYvlSYFRIXS38QiHQ/exec"; 
-const LIVE_URL = SCRIPT_URL; // লাইভ কাউন্টারও একই URL থেকে ডাটা নেবে
 
-// পেজ লোড হওয়ার সময় আগের ডাটা এবং লাইভ কাউন্টার চেক করবে
 document.addEventListener("DOMContentLoaded", function() {
-    // ১. আগের ভোটের অবস্থা চেক
     if(localStorage.getItem('hams_voted')) {
-        const subBtn = document.getElementById('submitBtn');
-        const voteMsg = document.getElementById('voteMessage');
-        if(subBtn) subBtn.classList.add('hidden');
-        if(voteMsg) voteMsg.classList.remove('hidden');
+        document.getElementById('pollSection').classList.add('hidden');
+        document.getElementById('successPage').classList.remove('hidden');
     }
-
-    // ২. লাইভ কাউন্টার কল করা
     updateVoteCount();
     setInterval(updateVoteCount, 30000);
-
-    // ৩. টাইমার ফাংশন
     initTimer();
 });
 
-// লাইভ কাউন্টার আপডেট করার ফাংশন
 async function updateVoteCount() {
     try {
-        const response = await fetch(LIVE_URL);
+        const response = await fetch(SCRIPT_URL);
         const data = await response.json();
         const countEl = document.getElementById("vote-count");
-        if(countEl) countEl.innerText = data.total;
-    } catch (error) {
-        console.error("কাউন্টার আপডেট হতে সমস্যা হচ্ছে:", error);
-    }
+        if(countEl) countEl.innerText = data.total || "0";
+    } catch (error) { console.error("Error updating counter:", error); }
 }
 
-// আইটেম সিলেক্ট করার ফাংশন
 function selectItem(type, el, val) {
     if(localStorage.getItem('hams_voted')) return;
-    const parent = el.parentElement;
-    parent.querySelectorAll('.option-box, .ref-item').forEach(i => i.classList.remove('active'));
+    el.parentElement.querySelectorAll('.option-box, .ref-item').forEach(i => i.classList.remove('active'));
     el.classList.add('active');
-    
     if(type === 'party') voteData.party = val;
     else voteData.ref = val;
-    
     const subBtn = document.getElementById('submitBtn');
-    if(voteData.party && voteData.ref) {
-        subBtn.disabled = false;
-        subBtn.classList.add('ready');
-    }
-}
-
-// ৪. ফর্ম সাবমিশন এবং ক্যাপচা চেক (সংশোধিত)
-const form = document.getElementById('poll-form');
-if(form) {
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-        
-        // ক্যাপচা চেক
-        const response = grecaptcha.getResponse();
-        if (response.length == 0) {
-            alert("দয়া করে 'I'm not a robot' ক্যাপচাটি পূরণ করুন।");
-            return;
-        }
-        
-        // ক্যাপচা ওকে থাকলে ভোট সাবমিট হবে
-        submitVote(); 
-    });
+    if(voteData.party && voteData.ref) { subBtn.disabled = false; subBtn.classList.add('ready'); }
 }
 
 function submitVote() {
+    const response = grecaptcha.getResponse();
+    if (response.length == 0) { alert("দয়া করে ক্যাপচাটি পূরণ করুন।"); return; }
+
     const btn = document.getElementById('submitBtn');
     btn.innerText = "প্রসেসিং...";
     btn.disabled = true;
@@ -201,84 +142,90 @@ function submitVote() {
     fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        body: JSON.stringify({
-            party: voteData.party,
-            referendum: voteData.ref
-        })
+        body: JSON.stringify({ party: voteData.party, referendum: voteData.ref })
     }).then(() => {
         localStorage.setItem('hams_voted', 'true');
         document.getElementById('pollSection').classList.add('hidden');
+        document.getElementById('live-counter').classList.add('hidden');
         document.getElementById('successPage').classList.remove('hidden');
-        window.scrollTo(0, 0);
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }).catch(() => {
-        alert("ত্রুটি হয়েছে! আবার চেষ্টা করুন।");
+        alert("ত্রুটি হয়েছে!");
         btn.innerText = "ভোট জমা দিন";
         btn.disabled = false;
-        grecaptcha.reset(); // ভুল হলে ক্যাপচা রিসেট হবে
+        grecaptcha.reset();
     });
 }
-	// ভোট সফলভাবে জমা হওয়ার পর যা ঘটবে
-function showSuccess() {
-    // ১. মেইন পোল সেকশন এবং টাইমার পুরোপুরি গায়েব করে দিন
-    document.getElementById("pollSection").style.display = "none";
-    document.getElementById("timer-display").style.display = "none";
 
-    // ২. কনফার্মেশন মেসেজটি (সাকসেস পেজ) দেখান
-    document.getElementById("successPage").classList.remove("hidden");
-    document.getElementById("successPage").style.display = "block";
-
-    // ৩. স্ক্রিনটি অটোমেটিক একদম উপরে (Top) নিয়ে যান
-    window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-// ৫. টাইমার ফাংশন (আলাদা করে গুছিয়ে দেওয়া হলো)
 function initTimer() {
-    const start = new Date("February 3, 2026 08:00:00").getTime();
+    // এখানে সময়টি আপনার বর্তমান সময় অনুযায়ী ২ অথবা ৩ তারিখ সেট করে টেস্ট করুন
+    const start = new Date("February 3, 2026 08:00:00").getTime(); 
     const end = new Date("February 7, 2026 20:00:00").getTime();
+    const electionDate = new Date("December 30, 2026 08:00:00").getTime();
 
     function update() {
         const now = new Date().getTime();
         const f = document.getElementById("pollSection");
         const t = document.getElementById("timer-display");
-        if (!f || !t) return;
+        const dl = document.getElementById("polling-deadline");
+        const liveElectionTimer = document.getElementById("election-timer-live");
+
+        // সংসদ নির্বাচনের দিন হিসাব (এটি ফাংশনের শুরুতে থাকবে যাতে সবসময় আপডেট হয়)
+        const distElection = electionDate - now;
+        const eDays = Math.floor(distElection / (1000 * 60 * 60 * 24));
+        const eHours = Math.floor((distElection % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const electionText = `🗳️ ত্রয়োদশ সংসদ নির্বাচনের আর বাকি: <b>${eDays} দিন ${eHours} ঘণ্টা</b>`;
 
         if (now < start) {
+            // জরিপ শুরু হওয়ার আগে
             f.style.display = "none";
             t.style.display = "block";
+            liveElectionTimer.style.display = "none"; // পোল সেকশনের টাইমার লুকানো
+
             let d = start - now;
             let h = Math.floor(d / 3600000);
             let m = Math.floor((d % 3600000) / 60000);
             let s = Math.floor((d % 60000) / 1000);
-            t.innerHTML = `<div style="background:#1e1e1e;padding:20px;border:2px solid #ffcc00;border-radius:10px;text-align:center;">
-                <h2 style="color:#ffcc00">জরিপ শুরু হতে বাকি</h2>
-                <p style="font-size:24px;color:#fff">${h} ঘণ্টা ${m} মিনিট ${s} সেকেন্ড</p>
-            </div>`;
+            
+            t.innerHTML = `
+                <div style="background:#1e1e1e;padding:25px;border:2px solid #ffcc00;border-radius:15px;max-width:400px;margin:0 auto;color:#fff;text-align:center;">
+                    <h3 style="color:#ffcc00;margin-top:0">জরিপ শুরু হতে বাকি</h3>
+                    <p style="font-size:24px;margin:10px 0;">${h} ঘণ্টা ${m} মিনিট ${s} সেকেন্ড</p>
+                    <hr style="border:0.5px solid #444; margin: 15px 0;">
+                    <p style="color:#00ffcc;font-size:15px;margin-bottom:0">${electionText}</p>
+                </div>`;
         } else if (now > end) {
+            // জরিপ শেষ হওয়ার পর
             f.style.display = "none";
             t.style.display = "block";
-            t.innerHTML = `<div style="background:#1e1e1e;padding:20px;border:2px solid #ff4444;border-radius:10px;text-align:center;">
-                <h2 style="color:#ff4444">জরিপটি শেষ হয়েছে</h2>
-            </div>`;
+            t.innerHTML = `
+                <div style="text-align:center; padding:30px; background:#fff; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.1); max-width:400px; margin:0 auto;">
+                    <div style="color:#f42a41;font-weight:bold;font-size:22px;margin-bottom:15px;">জরিপটি শেষ হয়েছে।</div>
+                    <p style="color:#006a4e;font-weight:bold;font-size:16px;">${electionText}</p>
+                </div>`;
         } else {
+            // জরিপ চলাকালীন অবস্থা (পোল সেকশন যখন খোলা)
             f.style.display = "block";
             t.style.display = "none";
+            dl.classList.remove("hidden");
+            
+            // সংসদ নির্বাচনের টাইমারটি এখানে সবসময় আপডেট হতে থাকবে
+            if(liveElectionTimer) {
+                liveElectionTimer.innerHTML = electionText;
+                liveElectionTimer.style.display = "block";
+            }
+            
+            let d = end - now;
+            let dDays = Math.floor(d / (1000 * 60 * 60 * 24));
+            let dHours = Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let dMins = Math.floor((d % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById("remaining-time").innerHTML = dDays + " দিন " + dHours + " ঘণ্টা " + dMins + " মিনিট";
         }
     }
-   // setInterval(update, 1000);
-    //update();
+    // আপনার অনুরোধ অনুযায়ী আমি স্ল্যাশ সরিয়ে আপডেট এবং ইন্টারভাল সচল করে দিয়েছি
+    setInterval(update, 1000);
+    update();
 }
-	document.getElementById("pollSection").style.display = "block";
-document.getElementById("timer-display").style.display = "none";
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
