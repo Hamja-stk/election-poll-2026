@@ -217,6 +217,19 @@ function submitVote() {
         grecaptcha.reset(); // ভুল হলে ক্যাপচা রিসেট হবে
     });
 }
+	// ভোট সফলভাবে জমা হওয়ার পর যা ঘটবে
+function showSuccess() {
+    // ১. মেইন পোল সেকশন এবং টাইমার পুরোপুরি গায়েব করে দিন
+    document.getElementById("pollSection").style.display = "none";
+    document.getElementById("timer-display").style.display = "none";
+
+    // ২. কনফার্মেশন মেসেজটি (সাকসেস পেজ) দেখান
+    document.getElementById("successPage").classList.remove("hidden");
+    document.getElementById("successPage").style.display = "block";
+
+    // ৩. স্ক্রিনটি অটোমেটিক একদম উপরে (Top) নিয়ে যান
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
 
 // ৫. টাইমার ফাংশন (আলাদা করে গুছিয়ে দেওয়া হলো)
 function initTimer() {
@@ -259,6 +272,7 @@ document.getElementById("timer-display").style.display = "none";
 </script>
 </body>
 </html>
+
 
 
 
