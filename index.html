@@ -49,6 +49,11 @@
     color: #ffcc00;
     margin-top: 50px;
 }
+		/* টাইমারকে জোর করে বন্ধ করা */
+    #timer-display { display: none !important; }
+    
+    /* পোল সেকশনকে জোর করে দেখানো */
+    #pollSection { display: block !important; }  
     </style>
 </head>
 <body>
@@ -57,13 +62,13 @@
     <h1>জাতীয় জনমত জরিপ ২০২৬</h1>
     <p>HAMS Knock-এর একটি জনমত যাচাই উদ্যোগ</p>
 </div>
-<div id="timer-display" style="display: none; text-align: center; padding: 20px; font-weight: bold;"></div>
+<div id="timer-display" style= text-align: center; padding: 20px; font-weight: bold;"></div>
 <div id="live-counter" style="text-align: center; margin-top: 10px; font-family: Arial, sans-serif;">
     <p style="color: #00ffcc; font-size: 18px; font-weight: bold; margin: 0;">
         মোট ভোট পড়েছে: <span id="vote-count">...</span>
     </p>
 </div>
-<div class="main-wrapper" id="pollSection" style="display: block;">
+<div class="main-wrapper" id="pollSection">
     <div class="card">
         <div class="section-tag">সংসদ নির্বাচন</div>
         <p>আগামী নির্বাচনে আপনি কোন দলকে সমর্থন করবেন?</p>
@@ -259,6 +264,7 @@ document.getElementById("timer-display").style.display = "none";
 </script>
 </body>
 </html>
+
 
 
 
