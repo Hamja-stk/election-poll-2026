@@ -49,11 +49,6 @@
     color: #ffcc00;
     margin-top: 50px;
 }
-		/* টাইমারকে জোর করে বন্ধ করা */
-    #timer-display { display: none !important; }
-    
-    /* পোল সেকশনকে জোর করে দেখানো */
-    #pollSection { display: block !important; }  
     </style>
 </head>
 <body>
@@ -91,7 +86,7 @@
             <div class="ref-item" style="justify-content:center" onclick="selectItem('ref', this, 'মন্তব্য নেই')">মন্তব্য নেই</div>
         </div>
     </div>
-	<--Recapcha--> 
+	<!--Recapcha--> 
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <div class="g-recaptcha" data-sitekey="6Lcf3l0sAAAAACq01OjHM2CIxZF1dkGHtBx8qX4_"></div>
 	
@@ -256,14 +251,15 @@ function initTimer() {
             t.style.display = "none";
         }
     }
-   // setInterval(update, 1000);//
-    update();
+   // setInterval(update, 1000);
+    //update();
 }
 	document.getElementById("pollSection").style.display = "block";
 document.getElementById("timer-display").style.display = "none";
 </script>
 </body>
 </html>
+
 
 
 
