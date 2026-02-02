@@ -241,21 +241,22 @@ function initTimer() {
                 <p style="font-size:24px;color:#fff">${h} ঘণ্টা ${m} মিনিট ${s} সেকেন্ড</p>
             </div>`;
         } else if (now > end) {
-            f.style.display = "block";
+            f.style.display = "none";
             t.style.display = "block";
             t.innerHTML = `<div style="background:#1e1e1e;padding:20px;border:2px solid #ff4444;border-radius:10px;text-align:center;">
                 <h2 style="color:#ff4444">জরিপটি শেষ হয়েছে</h2>
             </div>`;
         } else {
             f.style.display = "block";
-            t.style.display = "block";
+            t.style.display = "none";
         }
     }
-    setInterval(update, 1000);
+   // setInterval(update, 1000);//
     update();
 }
 </script>
 </body>
 </html>
+
 
 
